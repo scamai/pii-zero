@@ -8,7 +8,8 @@ allow-direct-references = true
 [project]
 name = "pii-redact"
 version = "0.1.0"
-description = "100% offline, open-source PII anonymization for insurance claim documents"
+description = "PII Zero: local PII redaction for PDFs and document images"
+readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
     # PDF
@@ -54,10 +55,16 @@ dev = [
     "pytest>=8.0",
     "pytest-cov>=4.1",
     "ruff>=0.3",
+    "datasets>=2.0",
 ]
 
 [project.scripts]
 pii-redact = "pii_redact.cli:main"
+
+[project.urls]
+Repository = "https://github.com/scamai/pii-zero"
+Documentation = "https://github.com/scamai/pii-zero/blob/main/README.md"
+Issues = "https://github.com/scamai/pii-zero/issues"
 
 [tool.ruff]
 line-length = 100

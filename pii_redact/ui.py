@@ -249,11 +249,11 @@ def launch_ui(
     # ------------------------------------------------------------------
     # Tab 1 — Redact
     # ------------------------------------------------------------------
-    with gr.Blocks(title="pii-redact") as app:
-        gr.Markdown("# pii-redact — Offline PII Anonymization")
+    with gr.Blocks(title="PII Zero") as app:
+        gr.Markdown("# PII Zero\nLocal PII redaction by Scam AI")
 
         with gr.Tab("Redact"):
-            gr.Markdown("Upload a document to detect and redact all PII regions.")
+            gr.Markdown("Upload a document to detect PII and review the redacted output.")
             with gr.Row():
                 upload_redact = gr.File(label="Upload document")
                 btn_redact = gr.Button("Redact", variant="primary")
@@ -276,7 +276,8 @@ def launch_ui(
         # ------------------------------------------------------------------
         with gr.Tab("Inspect (dry run)"):
             gr.Markdown(
-                "Upload a document to see what *would* be redacted — no files are modified."
+                "Inspect detections without writing a redacted copy. "
+                "An audit record is still written."
             )
             with gr.Row():
                 upload_inspect = gr.File(label="Upload document")
@@ -299,11 +300,10 @@ def launch_ui(
         # ------------------------------------------------------------------
         # Tab 3 — Vault / Restore
         # ------------------------------------------------------------------
-        with gr.Tab("Vault / Restore"):
+        with gr.Tab("Vault / Restore (experimental)"):
             gr.Markdown(
-                "Restore original PII values from the encrypted vault.\n\n"
-                "The vault key must match the key used during redaction "
-                "(`PII_VAULT_KEY` environment variable)."
+                "Vault recovery is not connected to the current redaction workflow. "
+                "Keep originals separately; do not rely on this tab to recover content."
             )
             with gr.Row():
                 upload_restore = gr.File(label="Upload redacted file")
