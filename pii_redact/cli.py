@@ -64,7 +64,7 @@ def _print_summary_table(results) -> None:
 
 @click.group()
 def main() -> None:
-    """pii-redact — 100% offline PII anonymization for insurance claim documents."""
+    """PII Zero — local PII redaction for PDFs and document images."""
 
 
 # ---------------------------------------------------------------------------
@@ -75,8 +75,14 @@ def main() -> None:
 @main.command()
 @click.argument("file_or_dir", type=click.Path(exists=True))
 @click.option("--output", "-o", "output_path", default=None, help="Output file or directory.")
-@click.option("--vault", "-v", "vault_path", default=None, help="Path to the PII vault database.")
-@click.option("--dry-run", is_flag=True, default=False, help="Detect PII but do not write files.")
+@click.option(
+    "--vault", "-v", "vault_path", default=None,
+    help="Experimental vault path; recovery is not connected to redaction.",
+)
+@click.option(
+    "--dry-run", is_flag=True, default=False,
+    help="Single file only: detect without a redacted copy; an audit record is written.",
+)
 @click.option("--config", "-c", "config_path", default=None, help="Path to settings.yaml.")
 def redact(
     file_or_dir: str,
@@ -132,7 +138,7 @@ def redact(
 )
 @click.option("--config", "-c", "config_path", default=None, help="Path to settings.yaml.")
 def inspect(file: str, output_format: str, config_path: str | None) -> None:
-    """Dry-run: detect PII in FILE without modifying anything."""
+    """Inspect PII in FILE without writing a redacted copy; an audit record is written."""
     from pii_redact.config import load_settings
     from pii_redact.pipeline import PIIRedactionPipeline
 
@@ -184,7 +190,7 @@ def inspect(file: str, output_format: str, config_path: str | None) -> None:
 @click.option("--vault", "-v", "vault_path", default=None, help="Path to vault database.")
 @click.option("--output", "-o", "output_path", default=None, help="Destination for restored file.")
 def restore(redacted_file: str, vault_path: str | None, output_path: str | None) -> None:
-    """Restore the original PII values in REDACTED_FILE from the vault.
+    """Experimental restore command; not connected to a working redaction workflow.
 
     Requires the PII_VAULT_KEY environment variable (AES-256-GCM hex key).
     """
@@ -239,7 +245,7 @@ def restore(redacted_file: str, vault_path: str | None, output_path: str | None)
 def ui(port: int, vlm: bool, config_path: str | None) -> None:
     """Launch the local Gradio web UI on http://127.0.0.1:PORT.
 
-    Never shares data to Gradio cloud — fully local.
+    Gradio sharing is disabled. Initial model loading may require network access.
     """
     from pii_redact.config import load_settings
     from pii_redact.pipeline import PIIRedactionPipeline
