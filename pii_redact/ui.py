@@ -325,6 +325,15 @@ def launch_ui(
                 outputs=[file_restored, df_regions],
             )
 
+        gr.Markdown(
+            "© 2026 Reality Inc. (Scam AI) and contributors. Provided without warranty. "
+            "You may redistribute it under "
+            "[AGPL-3.0-only](https://github.com/scamai/pii-zero/blob/main/LICENSE).\n\n"
+            "[Source code](https://github.com/scamai/pii-zero) · "
+            "[Third-party notices]"
+            "(https://github.com/scamai/pii-zero/blob/main/THIRD_PARTY_NOTICES.md)"
+        )
+
     app.launch(
         server_name="127.0.0.1",
         server_port=port,

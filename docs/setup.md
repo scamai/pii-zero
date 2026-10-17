@@ -6,6 +6,11 @@ resolve consistently.
 
 ## Dependencies and models
 
+Review the [third-party notices](../THIRD_PARTY_NOTICES.md) before provisioning
+weights, especially Surya's version-specific model terms. Record the dependency
+versions and model revisions you install; the project's AGPL license does not
+license third-party weights.
+
 | Component | Setup and behavior |
 | --- | --- |
 | Python dependencies | Install with `python -m pip install -e .`; ML frameworks are part of the base dependency set |

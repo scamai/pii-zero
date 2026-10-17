@@ -1,0 +1,18 @@
+PII Zero — local PII redaction for PDFs and document images
+Copyright (c) 2026 Reality Inc. (Scam AI) and contributors.
+
+Unless a file states otherwise, this project's original code and documentation
+are licensed under the GNU Affero General Public License, version 3 only
+(SPDX-License-Identifier: AGPL-3.0-only).
+
+You may redistribute and modify this program under those terms. This program
+is provided WITHOUT ANY WARRANTY, including the implied warranties of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE, to the extent permitted
+by applicable law. See the accompanying LICENSE for the complete terms.
+
+Third-party libraries, model weights, datasets, and other separately licensed
+materials retain their own copyrights and licenses. See THIRD_PARTY_NOTICES.md.
+This notice does not grant rights to those materials or modify their terms.
+
+Source: https://github.com/scamai/pii-zero
+Contact: contact@scam.ai
