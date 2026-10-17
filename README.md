@@ -9,6 +9,7 @@ interface and a local review UI.
 
 [Setup](docs/setup.md) · [Limitations and data handling](docs/limitations.md) ·
 [Development and benchmarks](docs/development.md) ·
+[License: AGPL-3.0-only](LICENSE) ·
 [Report an issue](https://github.com/scamai/pii-zero/issues)
 
 > **Status: experimental.** Review redacted outputs before sharing them. Detection
@@ -126,6 +127,17 @@ For other inquiries, contact [Scam AI](mailto:contact@scam.ai).
 
 ## Licensing
 
-This repository does not currently include a project `LICENSE` file. Its public
-visibility should not be presented as a published open-source license. Third-party
-libraries, datasets, and model weights have their own licensing terms.
+PII Zero's original code and documentation are licensed under the
+[GNU Affero General Public License v3.0 only](LICENSE) (`AGPL-3.0-only`).
+Copyright © 2026 Reality Inc. (Scam AI) and contributors. The software is provided
+without warranty; see [NOTICE](NOTICE) and the license for details.
+
+Commercial use is permitted under the license. Redistribution carries source
+and notice obligations; modified versions offered over a network must offer
+their Corresponding Source to the users interacting with them. See the
+[licensing guide](docs/licensing.md) for distribution and deployment guidance.
+
+Dependencies, model weights, and datasets retain their own licenses. In
+particular, some OCR weights have additional commercial-use conditions. Review
+the [third-party notices](THIRD_PARTY_NOTICES.md) for the versions and models you
+use; this project's AGPL license does not replace those terms.

@@ -64,7 +64,15 @@ def _print_summary_table(results) -> None:
 
 @click.group()
 def main() -> None:
-    """PII Zero — local PII redaction for PDFs and document images."""
+    """PII Zero — local PII redaction for PDFs and document images.
+
+    Copyright (c) 2026 Reality Inc. (Scam AI) and contributors.
+    Provided without warranty. You may redistribute it under AGPL-3.0-only.
+
+    License: https://github.com/scamai/pii-zero/blob/main/LICENSE
+
+    Source: https://github.com/scamai/pii-zero
+    """
 
 
 # ---------------------------------------------------------------------------

@@ -71,6 +71,8 @@ Local execution describes where models process documents. It does not establish
 zero network egress, a complete data-retention policy, or regulatory compliance.
 See [restricted-network setup](setup.md#restricted-network-operation).
 
-The repository currently has no project `LICENSE` file. Model weights, datasets,
-and dependencies have separate terms; this documentation does not assign a new
-license to the project or those components.
+PII Zero's original code and documentation are licensed under
+[AGPL-3.0-only](../LICENSE). Model weights, datasets, and dependencies retain
+separate terms. The project license does not grant rights to those components
+or establish that a deployment satisfies their terms. See the
+[licensing guide](licensing.md) and [third-party notices](../THIRD_PARTY_NOTICES.md).

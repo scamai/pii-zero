@@ -73,6 +73,11 @@ history; they are not current benchmark evidence.
 
 ## Contributing
 
+Contributions to this project's original code and documentation are accepted
+under [AGPL-3.0-only](../LICENSE). Retain existing copyright and license notices,
+and identify any third-party material you add with its source and license.
+Submitting a contribution does not transfer its copyright to Scam AI.
+
 Keep changes focused and explain the behavior they change. Include a synthetic
 reproduction and relevant verification results. Do not commit personal documents,
 model caches, vault keys, or sensitive audit files. Use the

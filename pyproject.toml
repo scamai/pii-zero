@@ -10,6 +10,8 @@ name = "pii-redact"
 version = "0.1.0"
 description = "PII Zero: local PII redaction for PDFs and document images"
 readme = "README.md"
+license = "AGPL-3.0-only"
+license-files = ["LICENSE", "NOTICE", "THIRD_PARTY_NOTICES.md"]
 requires-python = ">=3.10"
 dependencies = [
     # PDF
@@ -65,6 +67,7 @@ pii-redact = "pii_redact.cli:main"
 Repository = "https://github.com/scamai/pii-zero"
 Documentation = "https://github.com/scamai/pii-zero/blob/main/README.md"
 Issues = "https://github.com/scamai/pii-zero/issues"
+License = "https://github.com/scamai/pii-zero/blob/main/LICENSE"
 
 [tool.ruff]
 line-length = 100
