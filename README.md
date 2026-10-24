@@ -2,21 +2,25 @@
 
 **Find and redact personal information in PDFs and document images.**
 
-PII Zero, by [Scam AI](https://scam.ai), helps developers review receipts,
-invoices, and forms before sharing them. Inspect detected regions, write a
-separate redacted copy, and review the result with a local CLI or browser UI.
-Text extraction, OCR, entity recognition, and visual detection run locally;
-installation and initial model loading can require network access.
+Inspect detected regions and save a separate redacted copy with a local CLI or
+browser UI. Built by [Scam AI](https://scam.ai) for document review before sharing.
 
 [Try a sample](#try-a-fictional-document) · [Setup](docs/setup.md) ·
-[Limitations and data handling](docs/limitations.md) ·
-[Development and benchmarks](docs/development.md) ·
-[License: AGPL-3.0-only](LICENSE) ·
-[Report an issue](https://github.com/scamai/pii-zero/issues)
+[Limitations](docs/limitations.md) · [Get help](#support-and-contributions)
 
-> **Status: experimental.** Review redacted outputs before sharing them. Detection
-> can miss sensitive information, and a successful command is not proof that a
-> document is safe to release.
+> **Experimental.** Detection can miss sensitive information. Review every saved
+> output before sharing it.
+
+<p>
+  <img src="docs/assets/native-pdf-before.png" alt="Before: fictional contact sheet with a name, example email, reserved phone number, and a public purpose line" width="420">
+  <img src="docs/assets/native-pdf-after.png" alt="After: the saved PDF has solid black redactions over the detected contact fields while the purpose line remains readable" width="420">
+</p>
+
+**Input → saved output.** These are renders of a real run on fictional data,
+using the searchable-PDF text path. The example checks that email and phone
+text were removed from the saved PDF, not just covered visually.
+[Reproduce this example](#try-a-fictional-document) ·
+[Image provenance and scope](docs/readme-media.md)
 
 <details>
 <summary>Contents</summary>
@@ -77,50 +81,55 @@ python3.11 -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip
 python -m pip install -e .
-python -m spacy download en_core_web_lg
+python -m spacy download en_core_web_sm
 pii-redact --help
 ```
 
-The help command confirms that the CLI is installed. It does **not** load every
-detector. Complete [preflight checks](docs/setup.md#preflight-checks), then try
-the sample below. First-use OCR and layout processing can fetch model weights.
+The small spaCy model is enough for the native-PDF example below. The help
+command confirms that the CLI is installed; it does not load every detector.
+For the full CLI/OCR pipeline, complete the
+[preflight checks](docs/setup.md#preflight-checks) and model setup first.
+First-use OCR and layout processing can fetch additional model weights.
 
 The public project name is **PII Zero**. The Python package and command remain
 `pii-redact`, and Python imports use `pii_redact`.
 
 ## Try a fictional document
 
-**1. Create inputs with known fields.** The example generator uses PyMuPDF from
-the installed dependencies. It creates a searchable PDF and a portrait PNG,
-without downloading models or using personal documents.
+**Start with a searchable PDF.** After setup, run this small example from the
+repository root:
+
+```bash
+python examples/native_pdf_demo.py --output-dir demo/native-pdf
+```
+
+It creates fictional input, runs the real text detector and PDF redaction
+engine, and saves `before.pdf`, `after.pdf`, two PNG previews, and `evidence.json`.
+Open both PDFs. The command succeeds only if it detects the email and phone,
+removes their known text fragments, preserves the public purpose line, and
+leaves the input unchanged. Existing outputs are never overwritten; choose a
+new directory to repeat it.
+
+This exercises the **native PDF text path**, using an installed spaCy model.
+It does not exercise OCR, visual detectors, CLI routing, or audit generation.
+An absent optional InsuranceNER model can emit a warning; the example still
+requires real Presidio detections. Read the [demo scope](docs/readme-media.md)
+before interpreting it as evidence for other documents.
+
+**Then try the full CLI pipeline.** Generate the larger fictional PDF and PNG,
+complete [model preflight](docs/setup.md#preflight-checks), and keep warnings visible:
 
 ```bash
 python examples/make_sample.py --output-dir demo/input
 mkdir -p demo/output
-```
-
-Both files contain a fictional name, `alex@example.com`, and a reserved example
-phone number. The generator refuses to overwrite existing sample files.
-
-**2. Inspect the PDF, then redact it.** Initial processing can load or download
-models. Keep warnings visible.
-
-```bash
 pii-redact inspect demo/input/contact.pdf --format table
 pii-redact redact demo/input/contact.pdf --output demo/output/contact_redacted.pdf
 ```
 
-**3. Review the saved result.** Look for an `EMAIL_ADDRESS` detection at the
-email's location, then open the output and check that the field is covered.
-Search or copy text from the PDF as well as looking at the page. Check that an
-audit JSON was written under `audit_logs/` and inspect its `source_counts` and
-`entity_counts`. Missing output, missing expected fields, or detector warnings
-mean this evaluation is incomplete; an empty detection list is not a pass.
-
-Use the [output review steps](docs/setup.md#review-the-output) for a repeatable
-check. Then repeat with `demo/input/contact.png` to exercise OCR separately:
-success on a searchable PDF does not establish scan or photo coverage. Exact
-detection counts can vary with your model and dependency versions.
+Follow the [output review steps](docs/setup.md#review-the-output), including
+saved text and the audit JSON. Repeat with `demo/input/contact.png` to evaluate
+OCR separately. Success on the native example does not establish scan or photo
+coverage; detection counts vary with models and dependency versions.
 
 ## Usage
 
@@ -180,6 +189,12 @@ python -m pytest -m fast
 See [development and benchmarks](docs/development.md) for test isolation,
 evaluation commands, and how to report reproducible results. Historical benchmark
 numbers in Git history are not guarantees of redaction quality on new documents.
+
+To find the implementation: `cli.py` and `ui.py` are the entry points;
+`pipeline.py` routes documents; `layers/` and `ner/` detect regions;
+`redact/` writes outputs. All live under `pii_redact/`.
+The [repository map](docs/development.md#repository-layout) connects these to
+configuration, examples, and tests.
 
 ## Support and contributions
 

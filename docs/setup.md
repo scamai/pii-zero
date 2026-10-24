@@ -42,7 +42,7 @@ license third-party weights.
 | Component | Setup and behavior |
 | --- | --- |
 | Python dependencies | Install with `python -m pip install -e .`; ML frameworks are part of the base dependency set |
-| spaCy English model | Install with `python -m spacy download en_core_web_lg`; smaller installed models or a blank pipeline can be used as fallbacks, with reduced detection coverage |
+| spaCy English model | The README's native-PDF example uses `python -m spacy download en_core_web_sm`. You can install `en_core_web_lg` for the larger English model. Model choice changes detection coverage; an absent model is not a working fallback. |
 | Surya OCR | Used by the current image OCR pipeline; predictor initialization can fetch weights on first use |
 | Docling | Used for layout-aware PDF text extraction, with a PyMuPDF fallback; provision any models needed by your document path |
 | QR/barcodes | The `pyzbar` package also needs the system ZBar shared library |
@@ -66,15 +66,21 @@ After the README install steps, keep the virtual environment active and run:
 pii-redact --help
 python -m pip check
 python -m spacy validate
-python -c "import spacy; spacy.load('en_core_web_lg'); print('English model loads')"
+python -c "import spacy; spacy.load('en_core_web_sm'); print('English model loads')"
 ```
 
+Substitute `en_core_web_lg` if that is the model you installed.
 These check command discovery, declared dependency consistency, and the English
 NLP model. They do not validate OCR, visual detectors, PDF coordinates, or output
 redaction. Resolve errors before continuing. The legacy `pii-redact doctor` is
 supplementary; neither its success nor `download-models` completes this checklist.
 
 ## Try the sample
+
+For the smallest evaluation, first run the
+[native-PDF example](../README.md#try-a-fictional-document). It checks saved text
+and produces the README's before/after images without exercising OCR or visual
+detectors. Then evaluate the full CLI route below.
 
 Generate the fictional contact sheet from the repository root:
 

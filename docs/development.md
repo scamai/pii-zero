@@ -14,6 +14,7 @@ and `pii_redact` for imports. Domain names such as `scam.ai` retain their spelli
 | `pii_redact/redact/` | Redaction primitives and supporting audit/vault components |
 | `config/settings.yaml` | Default configuration |
 | `scripts/` | Model setup helpers, training, and evaluation runners |
+| `examples/` | Fictional inputs and a reproducible native-PDF before/after demo |
 | `tests/` | Unit tests and document smoke tests |
 
 Some supporting modules are not wired into the current pipeline. Follow the
