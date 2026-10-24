@@ -454,9 +454,10 @@ class RedactionEngine:
         merged = merge_boxes(boxes, padding=self._padding)
 
         doc = fitz.open(str(input_path))
+        page_count = len(doc)
         pages_redacted = 0
 
-        for page_num in range(len(doc)):
+        for page_num in range(page_count):
             page_boxes = [b for b in merged if b.page == page_num]
             if not page_boxes:
                 continue
@@ -469,7 +470,7 @@ class RedactionEngine:
 
         elapsed_ms = (time.monotonic() - t0) * 1000.0
         return {
-            "pages": len(doc) if not doc.is_closed else doc.page_count,
+            "pages": page_count,
             "total_boxes": len(merged),
             "pages_redacted": pages_redacted,
             "processing_ms": round(elapsed_ms, 1),

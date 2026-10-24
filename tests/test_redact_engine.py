@@ -10,6 +10,7 @@ import importlib
 import io
 import socket
 import sys
+from types import SimpleNamespace
 from unittest import mock
 
 import numpy as np
@@ -18,6 +19,38 @@ import pytest
 from pii_redact.models import RedactionBox
 
 pytestmark = pytest.mark.fast
+
+
+@pytest.mark.parametrize("redact", [True, False])
+def test_process_pdf_returns_statistics_and_reopenable_output(tmp_path, redact):
+    """The public engine must return after saving, including when no boxes match."""
+    engine = _import_engine()
+    fitz = pytest.importorskip("fitz")
+    source = tmp_path / "source.pdf"
+    output = tmp_path / "output.pdf"
+    with fitz.open() as document:
+        page = document.new_page()
+        page.insert_text((40, 70), "alex@example.com")
+        document.new_page().insert_text((40, 70), "Public information")
+        document.save(source)
+
+    boxes = [RedactionBox(
+        x=35, y=50, w=180, h=30, entity_type="EMAIL_ADDRESS",
+        confidence=1.0, source="test", page=0,
+    )] if redact else []
+    settings = SimpleNamespace(redaction={"fill_color": [0, 0, 0], "fill_padding_px": 0})
+    stats = engine.RedactionEngine(settings).process_pdf(source, boxes, output)
+
+    assert stats["pages"] == 2
+    assert stats["pages_redacted"] == int(redact)
+    assert stats["total_boxes"] == int(redact)
+    assert stats["processing_ms"] >= 0
+    with fitz.open(output) as document:
+        assert document.page_count == 2
+        assert ("alex@example.com" in document[0].get_text()) is not redact
+        assert "Public information" in document[1].get_text()
+    with fitz.open(source) as document:
+        assert "alex@example.com" in document[0].get_text()
 
 # ---------------------------------------------------------------------------
 # Helpers
