@@ -19,3 +19,4 @@ data/train.spacy
 data/dev.spacy
 data/benchmarks/
 *.arrow
+demo/

@@ -1,13 +1,15 @@
 # PII Zero
 
-**Local PII redaction for PDFs and document images, by [Scam AI](https://scam.ai).**
+**Find and redact personal information in PDFs and document images.**
 
-PII Zero helps developers inspect and redact personally identifiable information
-in documents such as receipts, invoices, and insurance forms. It combines text
-extraction, OCR, entity recognition, and visual detection with a command-line
-interface and a local review UI.
+PII Zero, by [Scam AI](https://scam.ai), helps developers review receipts,
+invoices, and forms before sharing them. Inspect detected regions, write a
+separate redacted copy, and review the result with a local CLI or browser UI.
+Text extraction, OCR, entity recognition, and visual detection run locally;
+installation and initial model loading can require network access.
 
-[Setup](docs/setup.md) · [Limitations and data handling](docs/limitations.md) ·
+[Try a sample](#try-a-fictional-document) · [Setup](docs/setup.md) ·
+[Limitations and data handling](docs/limitations.md) ·
 [Development and benchmarks](docs/development.md) ·
 [License: AGPL-3.0-only](LICENSE) ·
 [Report an issue](https://github.com/scamai/pii-zero/issues)
@@ -15,6 +17,35 @@ interface and a local review UI.
 > **Status: experimental.** Review redacted outputs before sharing them. Detection
 > can miss sensitive information, and a successful command is not proof that a
 > document is safe to release.
+
+<details>
+<summary>Contents</summary>
+
+- [Choose a workflow](#choose-a-workflow)
+- [Capabilities](#capabilities)
+- [Get started](#get-started)
+- [Try a fictional document](#try-a-fictional-document)
+- [Usage](#usage)
+- [Configuration and data handling](#configuration-and-data-handling)
+- [Development](#development)
+- [Support and contributions](#support-and-contributions)
+- [Licensing](#licensing)
+
+</details>
+
+## Choose a workflow
+
+| Your goal | Start here |
+| --- | --- |
+| Evaluate it without uploading a real document | [Generate and review a fictional contact sheet](#try-a-fictional-document) |
+| Review detections before writing an output | `pii-redact inspect FILE --format table` |
+| Produce a redacted copy or process a folder | `pii-redact redact FILE_OR_DIR --output OUTPUT` |
+| Inspect documents in a browser | `pii-redact ui --port 7860` — local Gradio interface |
+| Prepare an environment with network access restricted | [Provision models, then test under restrictions](docs/setup.md#restricted-network-operation) |
+
+The supported evaluation path is a source installation. Container files are
+[development scaffolding](docs/setup.md#containers), and recoverable vault
+redaction is [not connected to the current pipeline](docs/limitations.md#vault-and-restore).
 
 ## Capabilities
 
@@ -33,14 +64,16 @@ in the [setup guide](docs/setup.md#optional-models).
 
 ## Get started
 
-Use a Python virtual environment. The package declares Python 3.10 or newer; the
-included Dockerfile uses Python 3.11. Installation includes substantial ML
-dependencies, and model provisioning requires network access.
+Use a Python virtual environment. The package declares Python 3.10 or newer;
+Python 3.11 is a starting point consistent with the included Dockerfile, not a
+verified platform matrix. The commands below use a POSIX shell. Installation
+includes substantial ML dependencies; read [prerequisites](docs/setup.md#prerequisites)
+and [model setup](docs/setup.md#dependencies-and-models) first.
 
 ```bash
 git clone https://github.com/scamai/pii-zero.git
 cd pii-zero
-python3 -m venv .venv
+python3.11 -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip
 python -m pip install -e .
@@ -48,12 +81,46 @@ python -m spacy download en_core_web_lg
 pii-redact --help
 ```
 
-Complete [model setup](docs/setup.md) before processing documents. OCR and other
-components may download weights on first use. Start with synthetic documents to
-confirm that the required detection paths are available in your environment.
+The help command confirms that the CLI is installed. It does **not** load every
+detector. Complete [preflight checks](docs/setup.md#preflight-checks), then try
+the sample below. First-use OCR and layout processing can fetch model weights.
 
 The public project name is **PII Zero**. The Python package and command remain
 `pii-redact`, and Python imports use `pii_redact`.
+
+## Try a fictional document
+
+**1. Create inputs with known fields.** The example generator uses PyMuPDF from
+the installed dependencies. It creates a searchable PDF and a portrait PNG,
+without downloading models or using personal documents.
+
+```bash
+python examples/make_sample.py --output-dir demo/input
+mkdir -p demo/output
+```
+
+Both files contain a fictional name, `alex@example.com`, and a reserved example
+phone number. The generator refuses to overwrite existing sample files.
+
+**2. Inspect the PDF, then redact it.** Initial processing can load or download
+models. Keep warnings visible.
+
+```bash
+pii-redact inspect demo/input/contact.pdf --format table
+pii-redact redact demo/input/contact.pdf --output demo/output/contact_redacted.pdf
+```
+
+**3. Review the saved result.** Look for an `EMAIL_ADDRESS` detection at the
+email's location, then open the output and check that the field is covered.
+Search or copy text from the PDF as well as looking at the page. Check that an
+audit JSON was written under `audit_logs/` and inspect its `source_counts` and
+`entity_counts`. Missing output, missing expected fields, or detector warnings
+mean this evaluation is incomplete; an empty detection list is not a pass.
+
+Use the [output review steps](docs/setup.md#review-the-output) for a repeatable
+check. Then repeat with `demo/input/contact.png` to exercise OCR separately:
+success on a searchable PDF does not establish scan or photo coverage. Exact
+detection counts can vary with your model and dependency versions.
 
 ## Usage
 
@@ -120,6 +187,12 @@ Use [GitHub Issues](https://github.com/scamai/pii-zero/issues) for reproducible 
 and feature requests. Include your commit, Python version, command, and a synthetic
 example. Keep personal information and real customer documents out of public
 issues and pull requests.
+
+You can help by trying setup on a new environment, improving an error message,
+or sharing a minimal synthetic example of missed or excessive redaction.
+[CONTRIBUTING.md](CONTRIBUTING.md) explains the first-contribution path and
+what evidence to include. The [development guide](docs/development.md) covers
+tests and reproducible benchmarks.
 
 Report security vulnerabilities through the
 [Scam AI security policy](https://github.com/scamai/.github/blob/main/SECURITY.md).
