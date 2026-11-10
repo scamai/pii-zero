@@ -55,7 +55,11 @@ PII Zero's AGPL license.
 
 ## Contributions
 
-Submit original contributions under `AGPL-3.0-only`. Keep copyright and license
-notices for any included third-party material and document its provenance.
-Contributors retain their copyright; this project does not require a copyright
-assignment. See the [contribution guide](development.md#contributing).
+Contributions require the [Contributor License Agreement](../CLA.md), signed
+once by a comment on your first pull request. Contributors retain their
+copyright: the agreement is a license, not a copyright assignment. It allows
+Reality Inc. (Scam AI) to distribute contributions under terms other than
+`AGPL-3.0-only`, including commercial terms. The project published here is
+licensed under `AGPL-3.0-only`. Keep copyright and license notices for any
+included third-party material and document its provenance. See the
+[contribution guide](development.md#contributing).

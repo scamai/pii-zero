@@ -17,6 +17,9 @@ over-redacted regions, and focused improvements to the CLI or review UI.
    tests do not establish model quality or a complete installation.
 5. Explain what changed and how you checked the saved output. For documentation,
    verify commands, relative links, and any generated example files.
+6. On your first pull request, sign the
+   [Contributor License Agreement](CLA.md) when the CLA bot asks. See
+   [Changes and licensing](#changes-and-licensing).
 
 ## Report a reproducible problem
 
@@ -38,8 +41,12 @@ changes to a command, supported format, model requirement, or retention behavior
 Keep benchmarks reproducible with the metadata listed in
 [Development and benchmarks](docs/development.md#benchmarks).
 
-Contributions to the project's original code and documentation are accepted under
-[AGPL-3.0-only](LICENSE). Retain notices and identify the source and license of
-third-party material. Submitting a contribution does not transfer its copyright
-to Scam AI. See [third-party notices](THIRD_PARTY_NOTICES.md) for dependency and
-model terms.
+Contributions are accepted under the
+[Contributor License Agreement](CLA.md). You sign it once, by posting the comment
+the CLA bot names on your first pull request. You keep the copyright in your
+contribution; the agreement grants Reality Inc. (Scam AI) a license to it, which
+includes distributing it under terms other than [AGPL-3.0-only](LICENSE), such
+as commercial terms. The project published here is licensed under
+AGPL-3.0-only. Retain notices and identify the source and license of
+third-party material. See [third-party notices](THIRD_PARTY_NOTICES.md) for
+dependency and model terms.
