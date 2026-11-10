@@ -74,10 +74,13 @@ history; they are not current benchmark evidence.
 
 ## Contributing
 
-Contributions to this project's original code and documentation are accepted
-under [AGPL-3.0-only](../LICENSE). Retain existing copyright and license notices,
-and identify any third-party material you add with its source and license.
-Submitting a contribution does not transfer its copyright to Scam AI.
+Contributions are accepted under the
+[Contributor License Agreement](../CLA.md), which the CLA bot asks you to sign
+on your first pull request. You keep your copyright; the agreement lets
+Reality Inc. (Scam AI) distribute contributions under terms other than
+[AGPL-3.0-only](../LICENSE), including commercial terms. Retain existing
+copyright and license notices, and identify any third-party material you add
+with its source and license.
 
 Keep changes focused and explain the behavior they change. Include a synthetic
 reproduction and relevant verification results. Do not commit personal documents,

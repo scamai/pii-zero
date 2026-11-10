@@ -207,7 +207,9 @@ You can help by trying setup on a new environment, improving an error message,
 or sharing a minimal synthetic example of missed or excessive redaction.
 [CONTRIBUTING.md](CONTRIBUTING.md) explains the first-contribution path and
 what evidence to include. The [development guide](docs/development.md) covers
-tests and reproducible benchmarks.
+tests and reproducible benchmarks. Pull requests need a one-time
+[Contributor License Agreement](CLA.md) signature; the CLA bot asks on your
+first pull request.
 
 Report security vulnerabilities through the
 [Scam AI security policy](https://github.com/scamai/.github/blob/main/SECURITY.md).
